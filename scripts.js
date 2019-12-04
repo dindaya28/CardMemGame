@@ -1,16 +1,18 @@
 const cards = document.querySelectorAll('.mem-card');
+const button = document.querySelector('.reset');
 
 let firstFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
-let finishCounter = 0, moveCounter = 0;
+let finishCounter = 0, moveCounter = 0, highscore = 0;
 let finish = 6;
 
 function flipCard() {
-    updateMoves();
 
     // locks the board until non-matching cards flip back over
     if (lockBoard) return;
+
+    updateMoves();
 
     // check ensures that the same card cannot be clicked twice
     if (this === firstCard) return;
@@ -51,17 +53,21 @@ function checkMatch() {
 
 // function disables cards that have already been found to be matching
 function disableCards() {
-    firstCard.removeEventListener('click', flipCard);
-    secondCard.removeEventListener('click', flipCard);
-    // works at removing the cards, but causes the container to rearrange...
-    firstCard.style.display = "none";
-    secondCard.style.display = "none";
 
-    finishCounter++;
+    lockBoard = true;
 
-    let victory = (finishCounter === finish);
+    setTimeout( () => {
 
-    victory ? gameOver() : resetBoard();
+        firstCard.removeEventListener('click', flipCard);
+        secondCard.removeEventListener('click', flipCard);
+
+        // works at removing the cards, but causes the container to rearrange...
+        firstCard.classList.add('hidden');
+        secondCard.classList.add('hidden');
+
+        checkVictory();
+
+    }, 1500);
 
 }
 
@@ -86,9 +92,32 @@ function resetBoard() {
 
 // function to update move counter
 function updateMoves() {
-    // keep track of number of moves taken (may need to have a separate function for this guy)
+    // keep track of number of moves taken)
     moveCounter++;
     document.getElementById("moves").innerHTML = moveCounter;
+
+    if (moveCounter > highscore) {
+        document.getElementById('highscore').innerHTML = moveCounter;
+    }
+}
+
+// function checks to see if the user has found all 6 pairs
+function checkVictory() {
+    finishCounter++;
+
+    let victory = (finishCounter === finish);
+
+    victory ? gameOver() : resetBoard();
+}
+
+function newGame() {
+    console.log("button works!")
+
+    // reset move counter
+    moveCounter = 0;
+    document.getElementById("moves").innerHTML = moveCounter;
+
+
 }
 
 function gameOver() {
@@ -104,4 +133,4 @@ function gameOver() {
 })();
 
 cards.forEach(card => card.addEventListener('click', flipCard));
-
+button.addEventListener('click', newGame);
