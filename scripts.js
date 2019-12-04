@@ -4,15 +4,13 @@ const button = document.querySelector('.reset');
 let firstFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
-let finishCounter = 0, moveCounter = 0, highscore = 0;
+let finishCounter = 0, moveCounter = 0, highscore = 0, wins = 0;
 let finish = 6;
 
 function flipCard() {
 
     // locks the board until non-matching cards flip back over
     if (lockBoard) return;
-
-    updateMoves();
 
     // check ensures that the same card cannot be clicked twice
     if (this === firstCard) return;
@@ -23,10 +21,12 @@ function flipCard() {
         // first card has been clicked
         firstFlippedCard = true;
         firstCard = this;
+        updateMoves();
     } else {
         // second card has been clicked
         secondCard = this;
 
+        updateMoves();
         checkMatch();
     }
 }
@@ -110,27 +110,43 @@ function checkVictory() {
     victory ? gameOver() : resetBoard();
 }
 
+function gameOver() {
+    // update wins
+    wins++;
+    document.getElementById('wins').innerHTML = wins;
+
+    // need to print something to the screen that says user has won
+    // could use a notification pop-up, easier
+}
+
+// function assigns a random order to the cards at the start of the game to simulate shuffling
+function shuffle() {
+    cards.forEach(card => {
+        let randPos = Math.floor(Math.random() * 12);
+        card.style.order = randPos;
+    })
+};
+
+// function reshuffles the board for a new game, resetting the move counter, but keeping the high score the same
 function newGame() {
-    console.log("button works!")
 
     // reset move counter
     moveCounter = 0;
     document.getElementById("moves").innerHTML = moveCounter;
 
+    if (wins === 0) {
+        highscore = 0;
+        document.getElementById("highscore").innerHTML = highscore;
+    }
 
-}
-
-function gameOver() {
-
-}
-
-// function assigns a random order to the cards at the start of the game to simulate shuffling
-(function shuffle() {
     cards.forEach(card => {
-        let randPos = Math.floor(Math.random() * 12);
-        card.style.order = randPos;
-    })
-})();
+        card.addEventListener('click', flipCard);
+        card.classList.remove('hidden', 'flip');
+    });
+
+    resetBoard();
+    shuffle();
+}
 
 cards.forEach(card => card.addEventListener('click', flipCard));
 button.addEventListener('click', newGame);

@@ -8,15 +8,17 @@
         <link rel="stylesheet" href="styles.css">
     </head>
 
-    <body>
+    <body onload="shuffle()">
 
         <div class="mem-game">
 
             <div class="counter">
-                <p>Number of Moves:</p>
-                <p id="moves"> 0 </p>
+                <p>Current Score:</p>
+                <p id="moves">0</p>
                 <p>Best Score:</p>
                 <p id="highscore"> 0 </p>
+                <p>Wins: </p>
+                <p id="wins">0</p>
             </div>
 
             <div class="mem-card" data-framework="KH">
