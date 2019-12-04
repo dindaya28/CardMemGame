@@ -10,18 +10,36 @@ body {
     background-color: #3437db;
 }
 
+.counter {
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5em;
+}
+
+.counter {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
 .mem-game {
     width: 640px;
     height: 640px;
     margin: auto;
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
+    float: left;*/
+    display: grid;
+    grid-template-columns: repeat(4, auto);
     perspective: 1000px;
 }
 
 .mem-card {
-    width: calc(25% - 10px);
+    /*width: calc(25% - 10px);
     height: calc(33.333% - 10px);
+    margin: 5px;*/
+    width: calc((640px / 4) - 10px);
+    height: calc((640px / 3.3333) - 10px);
     margin: 5px;
     position: relative;
     transform: scale(1);
@@ -50,4 +68,27 @@ body {
 
 .front {
     transform: rotateY(180deg);
+}
+
+.resetButton {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    text-align: center;
+}
+
+.reset {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: grey;
+    color: black;
+    border: 2px solid black;
+    transition-duration: 0.4s;
+}
+
+.reset:hover {
+    background-color: #1c7ccc;
+    color: white;
 }

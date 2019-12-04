@@ -3,8 +3,12 @@ const cards = document.querySelectorAll('.mem-card');
 let firstFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
+let finishCounter = 0, moveCounter = 0;
+let finish = 6;
 
 function flipCard() {
+    updateMoves();
+
     // locks the board until non-matching cards flip back over
     if (lockBoard) return;
 
@@ -49,8 +53,16 @@ function checkMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
+    // works at removing the cards, but causes the container to rearrange...
+    firstCard.style.display = "none";
+    secondCard.style.display = "none";
 
-    resetBoard();
+    finishCounter++;
+
+    let victory = (finishCounter === finish);
+
+    victory ? gameOver() : resetBoard();
+
 }
 
 function unflipCards() {
@@ -70,6 +82,17 @@ function unflipCards() {
 function resetBoard() {
     [firstFlippedCard, lockBoard] = [false, false];
     [firstCard, secondCard] = [null, null];
+}
+
+// function to update move counter
+function updateMoves() {
+    // keep track of number of moves taken (may need to have a separate function for this guy)
+    moveCounter++;
+    document.getElementById("moves").innerHTML = moveCounter;
+}
+
+function gameOver() {
+
 }
 
 // function assigns a random order to the cards at the start of the game to simulate shuffling

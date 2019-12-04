@@ -10,11 +10,14 @@
 
     <body>
 
-        <div class="counter">
-            
-        </div>
+        <div class="mem-game">
 
-        <section class="mem-game">
+            <div class="counter">
+                <p>Number of Moves:</p>
+                <p id="moves"> 0 </p>
+                <p>Best Score:</p>
+                <p id="highscore"> 0 </p>
+            </div>
 
             <div class="mem-card" data-framework="KH">
                 <img class="front" src="img/KH.svg" alt="KingHearts"/>
@@ -76,7 +79,13 @@
                 <img class="back" src="img/back.svg" alt="Back"/>
             </div>
 
-        </section>
+            <div class="resetButton">
+                <button class="reset">
+                    RESET BOARD
+                </button>
+            </div>
+
+        </div>
 
         <script src="scripts.js"></script>
     </body>
